@@ -1,5 +1,6 @@
 package controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,8 +17,19 @@ public class CalculatorController {
     }
 
     @GetMapping("/add")
-    public int add(@RequestParam int a, @RequestParam int b){
-        int result = a+b;
-        return result;
+    public ResponseEntity<Integer> add(@RequestParam int a, @RequestParam int b){
+        int result = CalculatorService.add(a,b);
+        return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/divide")
+    public ResponseEntity<?> divide(@RequestParam int a, @RequestParam int b){
+
+        if(b==0){
+            return ResponseEntity.badRequest().body("Division by 0");
+        }
+        int result = CalculatorService.divide(a,b);
+        return ResponseEntity.ok(result);
+    }
+
 }
